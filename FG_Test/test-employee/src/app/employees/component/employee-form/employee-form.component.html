@@ -1,0 +1,28 @@
+<form #employeeForm="ngForm" class="card employee-form-card" novalidate="true" (ngSubmit)="save(employeeForm)">
+  <div class="card-header text-center">Employee</div>
+  <div class="employee-form">
+    <div class="form-group">
+      <label>forename:</label>
+      <input #title="ngModel" name="forename" type="text" class="form-control" [(ngModel)]="employee.forename" required minlength="3" />
+      <div class="erros" *ngIf="title.touched || title.dirty || title.submited">
+        <div *ngIf="title.errors?.required">This field is required</div>
+        <div *ngIf="title.errors?.minlength">Min length is set to 3</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>surname:</label>
+      <input name="surname" type="text" class="form-control" [(ngModel)]="employee.surname" />
+    </div>
+    <div class="form-group">
+      <label>email:</label>
+      <input #email="ngModel" name="emailAddress" type="text" class="form-control" [(ngModel)]="employee.emailAddress" validateEmail />
+      <div class="erros" *ngIf="email.touched || email.dirty || email.submited">
+        <div *ngIf="email.errors?.validateEmail">Invalid email address</div>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="editable">
+      <button type="button" class="btn" (click)="onCancel.emit()">Cancel</button>
+      <button type="submit" class="btn btn-success" [disabled]="employeeForm.invalid">Save</button>
+    </div>
+  </div>
+</form>

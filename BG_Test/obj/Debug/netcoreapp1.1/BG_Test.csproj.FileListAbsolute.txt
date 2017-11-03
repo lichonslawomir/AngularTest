@@ -1,0 +1,11 @@
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\bin\Debug\netcoreapp1.1\BG_Test.deps.json
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\bin\Debug\netcoreapp1.1\BG_Test.runtimeconfig.json
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\bin\Debug\netcoreapp1.1\BG_Test.runtimeconfig.dev.json
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\bin\Debug\netcoreapp1.1\BG_Test.dll
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\bin\Debug\netcoreapp1.1\BG_Test.pdb
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\obj\Debug\netcoreapp1.1\BG_Test.csprojResolveAssemblyReference.cache
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\obj\Debug\netcoreapp1.1\BG_Test.csproj.CoreCompileInputs.cache
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\obj\Debug\netcoreapp1.1\BG_Test.AssemblyInfoInputs.cache
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\obj\Debug\netcoreapp1.1\BG_Test.AssemblyInfo.cs
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\obj\Debug\netcoreapp1.1\BG_Test.dll
+e:\SKK\GIT\ANG\Bel_Test\BG_Test\obj\Debug\netcoreapp1.1\BG_Test.pdb
