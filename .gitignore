@@ -292,3 +292,4 @@ ModelManifest.xml
 # =========================
 .cakeTools/
 .build/
+FG_Test/test-employee/package-lock.json

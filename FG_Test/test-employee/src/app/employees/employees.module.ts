@@ -1,4 +1,4 @@
-import { EmployeesResolver } from './employees-resolver';
+import { ArrayEmployeesService } from './service/array-employees.service';
 import { routerModule } from './employees.routing';
 import { HttpEmployeesService } from './service/http-employees.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeFormComponent } from './component/employee-form/employee-form.component';
 import { EmployeesListComponent } from './component/employees-list/employees-list.component';
+import employeesData from './model/employee.data'
 
 @NgModule({
   imports: [
@@ -25,8 +26,8 @@ import { EmployeesListComponent } from './component/employees-list/employees-lis
     EmployeesListComponent
   ],
   providers: [
-    EmployeesResolver,
-    { provide: 'EmployeesService', useClass: HttpEmployeesService }
+    { provide: 'EmployeesService', useClass: ArrayEmployeesService },
+    { provide: 'DummyEmployeesData', useValue: employeesData }
   ]
 })
 export class EmployeesModule { }

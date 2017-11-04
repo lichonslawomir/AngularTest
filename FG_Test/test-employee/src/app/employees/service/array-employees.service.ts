@@ -6,7 +6,7 @@ import { ChangeType, EmployeesService, EventChangeArgument } from './employees.s
 @Injectable()
 export class ArrayEmployeesService implements EmployeesService {
 
-    constructor(@Optional() @Inject('EmployeesData') private employees: Employee[] = []) {
+    constructor(@Optional() @Inject('DummyEmployeesData') private employees: Employee[] = []) {
     }
 
     onItemChange = new EventEmitter<EventChangeArgument>()
