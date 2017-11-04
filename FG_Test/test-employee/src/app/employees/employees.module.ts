@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeFormComponent } from './component/employee-form/employee-form.component';
 import { EmployeesListComponent } from './component/employees-list/employees-list.component';
+import { SharedModule } from '../shared/shared.module';
 import employeesData from './model/employee.data'
 
 @NgModule({
@@ -16,7 +17,8 @@ import employeesData from './model/employee.data'
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    routerModule
+    routerModule,
+    SharedModule
   ],
   declarations: [
     EmployeeFormComponent,
