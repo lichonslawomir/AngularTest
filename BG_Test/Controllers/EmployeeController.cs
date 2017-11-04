@@ -36,14 +36,16 @@ namespace BG_Test.Controllers
         [HttpPost]
         public void Post([FromBody]Employee employee)
         {
-            this._iEmployeeService.Update(employee);
+            this._iEmployeeService.Insert(employee);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Employee employee)
+        public IActionResult Put(int id, [FromBody]Employee employee)
         {
-            this._iEmployeeService.Insert(employee);
+            employee.id = id;
+            this._iEmployeeService.Update(employee);
+            return new NoContentResult();
         }
 
         // DELETE api/values/5

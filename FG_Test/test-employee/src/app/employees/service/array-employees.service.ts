@@ -1,55 +1,67 @@
 import { Observable } from 'rxjs/Rx';
-import { Inject, Injectable, Optional } from '@angular/core';
+import { EventEmitter, Inject, Injectable, Optional } from '@angular/core';
 import { Employee } from '../model/employee';
-import { EmployeesService } from './employees.service';
+import { ChangeType, EmployeesService, EventChangeArgument } from './employees.service';
 
 @Injectable()
 export class ArrayEmployeesService implements EmployeesService {
 
-    constructor(@Optional() @Inject('BooksData') private eployees: Employee[] = []) {
+    constructor(@Optional() @Inject('EmployeesData') private employees: Employee[] = []) {
     }
+
+    onItemChange = new EventEmitter<EventChangeArgument>()
 
     getAll(): Observable<Employee[]> {
-        return Observable.of(this.eployees);
+        return Observable.of(this.employees);
     }
 
-    save(eployee: Employee): Observable<any> {
-        if(this.eployees.length > 0)
-          eployee.id = Math.max(...this.eployees.map(e => e.id)) +1
+    save(employee: Employee): Observable<any> {
+      return Observable.create((observer) => {
+        if(this.employees.length > 0)
+          employee.id = Math.max(...this.employees.map(e => e.id)) +1
         else
-          eployee.id = 1
-        this.eployees.push(eployee)
-        return Observable.empty()
+          employee.id = 1
+        this.employees.push(employee)
+        observer.next();
+        this.onItemChange.emit(new EventChangeArgument(ChangeType.Added, [employee]))
+      })
     }
 
-    update(eployee: Employee): Observable<any> {
-        let index = this.findIndex(eployee.id)
+    update(employee: Employee): Observable<any> {
+      return Observable.create((observer) => {
+        let index = this.findIndex(employee.id)
+        var obsResult = Observable.empty()
         if (index !== -1) {
-            this.eployees[index] = eployee
+          this.employees[index] = employee
         }
-        return Observable.empty()
+        observer.next();
+        this.onItemChange.emit(new EventChangeArgument(ChangeType.Updated, [employee]))
+      })
     }
 
     private findIndex(id: number): number {
-      return this.eployees
+      return this.employees
           .findIndex(e => id === e.id)
     }
-
 
     getById(id: number): Observable<Employee> {
       let index = this.findIndex(id)
         if (index !== -1) {
-            return Observable.from([this.eployees[index]]);
+          return Observable.from([this.employees[index]]);
         }
         return Observable.empty()
     }
 
-    delete(id: number): Observable<any> {
-      let index = this.findIndex(id)
-      if (index !== -1) {
-          this.eployees.splice(index,1)
-      }
-      return Observable.empty()
+    delete(employee: Employee): Observable<any> {
+      return Observable.create((observer) => {
+        let index = this.findIndex(employee.id)
+        var obsResult = Observable.empty()
+        if (index !== -1) {
+          this.employees.splice(index,1)
+        }
+        observer.next();
+        this.onItemChange.emit(new EventChangeArgument(ChangeType.Deleted, [employee]))
+      })
     }
 
 }

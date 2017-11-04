@@ -1,9 +1,10 @@
+import { empty } from 'rxjs/Observer';
+import { Employee } from './../model/employee';
 import { Observable } from 'rxjs/Rx';
 import { Api } from '../../api';
 import { HttpClient } from '@angular/common/http';
-import { Employee } from '../model/employee';
-import { EmployeesService } from './employees.service';
-import { Injectable } from '@angular/core';
+import { ChangeType, EmployeesService, EventChangeArgument } from './employees.service';
+import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable()
 export class HttpEmployeesService implements EmployeesService {
@@ -11,19 +12,31 @@ export class HttpEmployeesService implements EmployeesService {
     constructor(private httpClient: HttpClient, private api: Api) {
     }
 
+    onItemChange = new EventEmitter<EventChangeArgument>()
+
     getAll(): Observable<Employee[]> {
         return this.httpClient
             .get<Employee[]>(this.api.employees)
     }
 
-    save(book: Employee): Observable<any> {
-        return this.httpClient
-            .post<void>(this.api.employees, book)
+    save(employee: Employee): Observable<any> {
+      return Observable.create((observer) => {
+        var obsResult = this.httpClient.post<void>(this.api.employees, employee)
+        obsResult.subscribe(e => {
+          observer.next();
+          this.onItemChange.emit(new EventChangeArgument(ChangeType.Added, [employee]))
+        })
+      })
     }
 
-    update(book: Employee): Observable<any> {
-        return this.httpClient
-            .put<void>(`${this.api.employees}/${book.id}`, book)
+    update(employee: Employee): Observable<any> {
+      return Observable.create((observer) => {
+        var obsResult = this.httpClient.put<any>(`${this.api.employees}/${employee.id}`, employee)
+        obsResult.subscribe(() => {
+          observer.next();
+          this.onItemChange.emit(new EventChangeArgument(ChangeType.Updated, [employee]))
+        })
+      })
     }
 
     getById(id: number): Observable<Employee> {
@@ -31,8 +44,13 @@ export class HttpEmployeesService implements EmployeesService {
             .get<Employee>(`${this.api.employees}/${id}`)
     }
 
-    delete(id: number): Observable<any> {
-      return this.httpClient
-          .delete<Employee>(`${this.api.employees}/${id}`)
+    delete(employee: Employee): Observable<any> {
+      return Observable.create((observer) => {
+        var obsResult = this.httpClient.delete<Employee>(`${this.api.employees}/${employee.id}`)
+        obsResult.subscribe(e => {
+          observer.next();
+          this.onItemChange.emit(new EventChangeArgument(ChangeType.Deleted, [employee]))
+        })
+      })
     }
 }
