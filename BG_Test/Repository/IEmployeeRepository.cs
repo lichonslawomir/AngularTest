@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using BG_Test.Models;
 
-namespace BG_Test.Services
+namespace BG_Test.Repository
 {
-    public interface IEmployeeService
+    public interface IEmployeeRepository
     {
         Employee[] List();
         Employee Get(int id);

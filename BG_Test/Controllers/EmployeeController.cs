@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BG_Test.Services;
+using BG_Test.Repository;
 using BG_Test.Models;
 
 namespace BG_Test.Controllers
@@ -11,9 +11,9 @@ namespace BG_Test.Controllers
     [Route("api/employees")]
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeService _iEmployeeService;
+        private readonly IEmployeeRepository _iEmployeeService;
 
-        public EmployeeController(IEmployeeService iEmployeeService)
+        public EmployeeController(IEmployeeRepository iEmployeeService)
         {
             this._iEmployeeService = iEmployeeService;
         }

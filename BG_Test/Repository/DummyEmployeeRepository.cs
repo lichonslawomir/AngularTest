@@ -4,22 +4,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using BG_Test.Models;
 
-namespace BG_Test.Services
+namespace BG_Test.Repository
 {
-    public class DummyEmployeeService : IEmployeeService
+    public class DummyEmployeeRepository : IEmployeeRepository
     {
-        private static readonly List<Employee> _list = new List<Employee>(new Employee[]
+        private readonly List<Employee> _list = new List<Employee>(new Employee[]
         {
             
         });
 
-        static DummyEmployeeService()
+        public DummyEmployeeRepository()
         {
-            for (int i = 0; i < 10; ++i)
+            for (int i = 1; i <= 20; ++i)
             {
                 _list.Add(new Employee()
                 {
-                    id = i+1,
+                    id = i,
                     forename = string.Format("forename: {0}",i),
                     surname = string.Format("surname: {0}", i),
                     emailAddress = string.Format("emailAddress: {0}", i)
