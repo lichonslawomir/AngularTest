@@ -34,9 +34,22 @@ namespace BG_Test.Controllers
 
         // POST api/values
         [HttpPost]
-        public Employee Post([FromBody]Employee employee)
+        public IActionResult Post([FromBody]Employee employee)
         {
-            return this._iEmployeeService.Insert(employee);
+            try
+            {
+                if (employee == null || !ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                employee = this._iEmployeeService.Insert(employee);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Unknow error");
+            }
+            return Ok(employee);
         }
 
         // PUT api/values/5

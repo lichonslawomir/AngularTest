@@ -11,7 +11,10 @@
     </div>
     <div class="form-group">
       <label>surname:</label>
-      <input name="surname" type="text" class="form-control" [(ngModel)]="employee.surname" />
+      <input #surname="ngModel" name="surname" type="text" class="form-control" [(ngModel)]="employee.surname" />
+      <div class="erros" *ngIf="remoteErrors?.surname">
+          <div *ngFor="let err of remoteErrors.surname">{{err}}</div>
+      </div>
     </div>
     <div class="form-group">
       <label>email:</label>
@@ -24,6 +27,10 @@
       <button type="button" class="btn" (click)="edit()"  *ngIf="!editable">Edit</button>
     </div>
     <div class="form-group" *ngIf="editable">
+      <div class="erros" *ngIf="(remoteErrors|getType) == 'string'">
+          <div>{{remoteErrors}}</div>
+      </div>
+
       <button type="button" class="btn" (click)="cancel()">Cancel</button>
       <button type="submit" class="btn btn-success" [disabled]="employeeForm.invalid">Save</button>
     </div>

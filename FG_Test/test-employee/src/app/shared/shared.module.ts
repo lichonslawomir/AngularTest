@@ -1,3 +1,4 @@
+import { GetTypePipe } from './pipe/get-type.pipe';
 import { EmailValidator } from './validator/email.validator';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,10 +7,12 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ],
   declarations: [
-    EmailValidator
+    EmailValidator,
+    GetTypePipe
   ],
   exports: [
-    EmailValidator
+    EmailValidator,
+    GetTypePipe
   ]
 })
 export class SharedModule { }

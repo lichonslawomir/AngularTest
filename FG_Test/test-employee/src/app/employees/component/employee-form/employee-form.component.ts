@@ -1,3 +1,4 @@
+import { Observable, Subject } from 'rxjs/Rx';
 import { formTransition } from './employee-form.animation';
 import { EmployeesService } from '../../service/employees.service';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
@@ -17,7 +18,9 @@ export class EmployeeFormComponent implements OnInit {
   employeeFromService: Employee
   employeeEdited: Employee
   newEntity:boolean = true
-  editable :boolean= false
+  editable:boolean= false
+  remoteErrors: any
+
   private sub: any
 
   constructor(private route: ActivatedRoute, private router: Router, @Inject('EmployeesService') private employeesService: EmployeesService) {
@@ -43,18 +46,22 @@ export class EmployeeFormComponent implements OnInit {
     this.sub.unsubscribe();
   }
 
+  error(e) {
+    this.remoteErrors = e
+  }
+
   save(employeeForm) {
     if (this.editable && employeeForm.valid) {
       if(this.newEntity) {
         this.employeesService.save(this.employee).subscribe((e) => {
           this.router.navigateByUrl(`employees/${e.id}`)
-        })
+        }, ee => this.error(ee))
       } else {
         this.employeesService.update(this.employee).subscribe(() => {
           this.editable = false
           Object.assign(this.employeeFromService, this.employee)
           this.router.navigateByUrl('employees')
-        })
+        }, ee => this.error(ee))
       }
     }
   }

@@ -25,7 +25,11 @@ export class HttpEmployeesService implements EmployeesService {
         obsResult.subscribe(e => {
           observer.next(e);
           this.onItemChange.emit(new EventChangeArgument(ChangeType.Added, [employee]))
-        })
+        },
+        errorResponse => {
+          observer.error(errorResponse.error)
+        },
+        () => observer.complete())
       })
     }
 
@@ -35,7 +39,13 @@ export class HttpEmployeesService implements EmployeesService {
         obsResult.subscribe(() => {
           observer.next();
           this.onItemChange.emit(new EventChangeArgument(ChangeType.Updated, [employee]))
-        })
+        },
+        error => {
+          console.log('error')
+          console.log(error)
+          throw error
+        },
+        () => observer.complete())
       })
     }
 
