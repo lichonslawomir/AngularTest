@@ -1,14 +1,41 @@
 <div class="row">
   <div class="col-lg-6">
-    <ul class="employees-list">
-      <li *ngFor="let employee of employees | async">
-        <a [routerLink]="['/employees', employee.id]">{{ employee.forename}} ({{employee.surname}})</a>
-      </li>
-    </ul>
+    <div class="row employees-list">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>forename</th>
+                <th>surname</th>
+                <th>email</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let employee of employees | async" routerLinkActive="active">
+                <td>{{ employee.id }}</td>
+                <td>{{ employee.forename }}</td>
+                <td>{{ employee.surname }}</td>
+                <td>{{ employee.emailAddress }}</td>
+                <td>
+                    <a [routerLink]="['/employees', employee.id]" class="btn btn-primary">View</a>
+                    <a class="btn btn-danger"
+                      mwlConfirmationPopover title="Are you sure?"
+                      placement="center"
+                      message="Do you want to delete the employee record with id: {{ employee.id }}"
+                      (confirm)="delete(employee)"
+                      confirmButtonType="danger"
+                      cancelButtonType="default">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="menu row">
+        <a class="btn btn-primary pull-right" routerLink='/new-employee' routerLinkActive="active">Add new book</a>
+      </div>
   </div>
-
   <div class="col-lg-6">
     <router-outlet></router-outlet>
   </div>
-
 </div>

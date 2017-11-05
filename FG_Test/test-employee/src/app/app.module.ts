@@ -1,3 +1,5 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { Api } from './api';
 import { EmployeesModule } from './employees/employees.module';
@@ -15,7 +17,8 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     EmployeesModule,
     routerModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [
     Api

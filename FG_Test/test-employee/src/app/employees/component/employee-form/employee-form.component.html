@@ -1,14 +1,10 @@
 <form #employeeForm="ngForm" class="card employee-form-card" novalidate="true" (ngSubmit)="save(employeeForm)">
   <div class="card-header text-center">Employee</div>
   <div class="employee-form">
-    <div class="form-group" *ngIf="!newEntity">
-      <button type="button" class="btn" (click)="editable = true"  *ngIf="!editable">Edit</button>
-      <button type="submit" class="btn" (click)="editable = false" *ngIf="editable" >View</button>
-    </div>
     <div class="form-group">
       <label>forename:</label>
       <input #forename="ngModel" name="forename" type="text" class="form-control" [(ngModel)]="employee.forename" required minlength="3" />
-      <div class="erros" *ngIf="forename.touched || forename.dirty || forename.invalid">
+      <div class="erros" *ngIf="forename.touched || forename.dirty">
         <div *ngIf="forename.errors?.required">This field is required</div>
         <div *ngIf="forename.errors?.minlength">Min length is set to 3</div>
       </div>
@@ -20,12 +16,15 @@
     <div class="form-group">
       <label>email:</label>
       <input #emailAddress="ngModel" name="emailAddress" type="text" class="form-control" [(ngModel)]="employee.emailAddress" validateEmail />
-      <div class="erros" *ngIf="emailAddress.touched || emailAddress.dirty || emailAddress.invalid">
-        <div *ngIf="emailAddress.errors?.validateEmail">{{emailAddress.errors?.validateEmail?.error}}</div>
+      <div class="erros" *ngIf="emailAddress.touched || emailAddress.dirty">
+        <div *ngIf="emailAddress.errors?.validateEmail">{{emailAddress.errors?.validateEmail?.message}}</div>
       </div>
     </div>
+    <div class="form-group" *ngIf="!newEntity">
+      <button type="button" class="btn" (click)="edit()"  *ngIf="!editable">Edit</button>
+    </div>
     <div class="form-group" *ngIf="editable">
-      <button type="button" class="btn" (click)="onCancel.emit()">Cancel</button>
+      <button type="button" class="btn" (click)="cancel()">Cancel</button>
       <button type="submit" class="btn btn-success" [disabled]="employeeForm.invalid">Save</button>
     </div>
   </div>

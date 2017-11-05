@@ -16,7 +16,7 @@ export interface EmployeesService {
 
     getAll(): Observable<Employee[]>
 
-    save(employee: Employee): Observable<any>
+    save(employee: Employee): Observable<Employee>
 
     update(employee: Employee): Observable<any>
 

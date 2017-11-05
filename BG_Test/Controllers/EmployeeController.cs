@@ -34,9 +34,9 @@ namespace BG_Test.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]Employee employee)
+        public Employee Post([FromBody]Employee employee)
         {
-            this._iEmployeeService.Insert(employee);
+            return this._iEmployeeService.Insert(employee);
         }
 
         // PUT api/values/5
@@ -50,9 +50,10 @@ namespace BG_Test.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             this._iEmployeeService.Delete(id);
+            return new NoContentResult();
         }
     }
 }

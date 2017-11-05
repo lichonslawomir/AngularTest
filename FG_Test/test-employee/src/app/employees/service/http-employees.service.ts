@@ -19,11 +19,11 @@ export class HttpEmployeesService implements EmployeesService {
             .get<Employee[]>(this.api.employees)
     }
 
-    save(employee: Employee): Observable<any> {
+    save(employee: Employee): Observable<Employee> {
       return Observable.create((observer) => {
-        var obsResult = this.httpClient.post<void>(this.api.employees, employee)
+        var obsResult = this.httpClient.post<Employee>(this.api.employees, employee)
         obsResult.subscribe(e => {
-          observer.next();
+          observer.next(e);
           this.onItemChange.emit(new EventChangeArgument(ChangeType.Added, [employee]))
         })
       })
@@ -46,8 +46,9 @@ export class HttpEmployeesService implements EmployeesService {
 
     delete(employee: Employee): Observable<any> {
       return Observable.create((observer) => {
-        var obsResult = this.httpClient.delete<Employee>(`${this.api.employees}/${employee.id}`)
-        obsResult.subscribe(e => {
+        var obsResult = this.httpClient.delete<any>(`${this.api.employees}/${employee.id}`)
+        obsResult.subscribe(() => {
+          console.log('delete')
           observer.next();
           this.onItemChange.emit(new EventChangeArgument(ChangeType.Deleted, [employee]))
         })

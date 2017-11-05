@@ -9,6 +9,9 @@ import { CommonModule } from '@angular/common';
 import { EmployeeFormComponent } from './component/employee-form/employee-form.component';
 import { EmployeesListComponent } from './component/employees-list/employees-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { DataTablesModule } from 'angular-datatables';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+
 import employeesData from './model/employee.data'
 
 @NgModule({
@@ -18,17 +21,22 @@ import employeesData from './model/employee.data'
     ReactiveFormsModule,
     HttpClientModule,
     routerModule,
-    SharedModule
+    SharedModule,
+    DataTablesModule,
+    ConfirmationPopoverModule.forRoot({
+      focusButton: 'confirm'
+    })
   ],
   declarations: [
     EmployeeFormComponent,
     EmployeesListComponent,
   ],
   exports: [
-    EmployeesListComponent
+    EmployeesListComponent,
+    EmployeeFormComponent,
   ],
   providers: [
-    { provide: 'EmployeesService', useClass: ArrayEmployeesService },
+    { provide: 'EmployeesService', useClass: HttpEmployeesService },
     { provide: 'DummyEmployeesData', useValue: employeesData }
   ]
 })

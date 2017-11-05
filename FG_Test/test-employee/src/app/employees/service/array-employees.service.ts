@@ -15,14 +15,14 @@ export class ArrayEmployeesService implements EmployeesService {
         return Observable.of(this.employees);
     }
 
-    save(employee: Employee): Observable<any> {
+    save(employee: Employee): Observable<Employee> {
       return Observable.create((observer) => {
         if(this.employees.length > 0)
           employee.id = Math.max(...this.employees.map(e => e.id)) +1
         else
           employee.id = 1
         this.employees.push(employee)
-        observer.next();
+        observer.next(employee);
         this.onItemChange.emit(new EventChangeArgument(ChangeType.Added, [employee]))
       })
     }

@@ -8,12 +8,12 @@ namespace BG_Test.Services
 {
     public class DummyEmployeeService : IEmployeeService
     {
-        private readonly List<Employee> _list = new List<Employee>(new Employee[]
+        private static readonly List<Employee> _list = new List<Employee>(new Employee[]
         {
             
         });
 
-        public DummyEmployeeService()
+        static DummyEmployeeService()
         {
             for (int i = 0; i < 10; ++i)
             {
