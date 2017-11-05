@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BG_Test.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using BG_Test.Repository;
 using BG_Test.Models;
@@ -11,25 +12,37 @@ namespace BG_Test.Controllers
     [Route("api/employees")]
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepository _iEmployeeService;
+        private readonly IEmployeeRepository _iEmployeeRepository;
+        private readonly IEmployeeLogic _iEmployeeLogic;
 
-        public EmployeeController(IEmployeeRepository iEmployeeService)
+        public EmployeeController(IEmployeeRepository iEmployeeRepository, IEmployeeLogic iEmployeeLogic)
         {
-            this._iEmployeeService = iEmployeeService;
+            this._iEmployeeRepository = iEmployeeRepository ?? throw new ArgumentNullException(nameof(iEmployeeRepository));
+            this._iEmployeeLogic = iEmployeeLogic ?? throw new ArgumentNullException(nameof(iEmployeeLogic));
         }
 
         // GET api/values
         [HttpGet]
         public IEnumerable<Employee> Get()
         {
-            return this._iEmployeeService.List();
+            return this._iEmployeeRepository.List();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public Employee Get(int id)
         {
-            return this._iEmployeeService.Get(id);
+            return this._iEmployeeRepository.Get(id);
+        }
+
+
+        private IActionResult BadRequest(BaseResult result)
+        {
+            foreach (var item in result.Errors)
+            {
+                ModelState.AddModelError(item.PropertyName, item.Message);
+            }
+            return BadRequest(ModelState);
         }
 
         // POST api/values
@@ -42,8 +55,15 @@ namespace BG_Test.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
-                employee = this._iEmployeeService.Insert(employee);
+                var result = this._iEmployeeLogic.Insert(employee);
+                if (result.Success)
+                {
+                    employee = result.Value;
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
             }
             catch (Exception)
             {
@@ -56,8 +76,23 @@ namespace BG_Test.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Employee employee)
         {
-            employee.id = id;
-            this._iEmployeeService.Update(employee);
+            try
+            {
+                if (employee == null || !ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                employee.id = id;
+                var result = this._iEmployeeLogic.Insert(employee);
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest("Unknow error");
+            }
             return new NoContentResult();
         }
 
@@ -65,7 +100,18 @@ namespace BG_Test.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            this._iEmployeeService.Delete(id);
+            try
+            {
+                var result = this._iEmployeeLogic.Delete(id);
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest("Unknow error");
+            }
             return new NoContentResult();
         }
     }

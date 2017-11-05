@@ -22,6 +22,9 @@
       <div class="erros" *ngIf="emailAddress.touched || emailAddress.dirty">
         <div *ngIf="emailAddress.errors?.validateEmail">{{emailAddress.errors?.validateEmail?.message}}</div>
       </div>
+      <div class="erros" *ngIf="remoteErrors?.emailAddress">
+          <div *ngFor="let err of remoteErrors.emailAddress">{{err}}</div>
+      </div>
     </div>
     <div class="form-group" *ngIf="!newEntity">
       <button type="button" class="btn" (click)="edit()"  *ngIf="!editable">Edit</button>
@@ -29,6 +32,9 @@
     <div class="form-group" *ngIf="editable">
       <div class="erros" *ngIf="(remoteErrors|getType) == 'string'">
           <div>{{remoteErrors}}</div>
+      </div>
+      <div class="erros" *ngIf="remoteErrors && remoteErrors['']">
+          <div *ngFor="let err of remoteErrors['']">{{err}}</div>
       </div>
 
       <button type="button" class="btn" (click)="cancel()">Cancel</button>

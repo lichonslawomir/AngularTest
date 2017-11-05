@@ -12,8 +12,7 @@ namespace BG_Test.Models
 
         [Required]
         public string forename { get; set; }
-
-        [Required]
+        
         public string surname { get; set; }
 
         [Required]

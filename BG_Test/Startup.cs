@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BG_Test.BuisnesRuless.Employee;
+using BG_Test.Interfaces;
 using BG_Test.Repository;
+using BG_Test.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +36,11 @@ namespace BG_Test
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
             services.AddMvc();
+            services.AddTransient<IValidatorFactory, ValidatorFactory>();
+            services.AddTransient<IEmployeeLogic, EmployeeLogic>();
             services.AddSingleton<IEmployeeRepository, DummyEmployeeRepository>();
+
+            //services.AddTransient<InsertEmployeeValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
